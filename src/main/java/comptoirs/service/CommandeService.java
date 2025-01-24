@@ -111,7 +111,10 @@ public class CommandeService {
         if (produit.isIndisponible()) throw new IllegalStateException("Le produit n'est pas disponible");
         if (produit.getUnitesEnStock() < quantite + produit.getUnitesCommandees()) throw new IllegalStateException("Il n'y a pas assez de produit en stock");
 
-
+        Commande commande = commandeDao.findById(commandeNum).orElseThrow();
+        if (commande.getEnvoyeele() != null) throw new IllegalStateException("La commande à déjà été envoyé");
+        Ligne ligne = new Ligne(commande, produit, quantite);
+        ligneDao.save(ligne);
 
     }
 
