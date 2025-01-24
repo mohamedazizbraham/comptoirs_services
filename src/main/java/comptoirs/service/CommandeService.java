@@ -115,7 +115,9 @@ public class CommandeService {
         if (commande.getEnvoyeele() != null) throw new IllegalStateException("La commande à déjà été envoyé");
         Ligne ligne = new Ligne(commande, produit, quantite);
         ligneDao.save(ligne);
-
+        produit.setUnitesCommandees(produit.getUnitesCommandees() - quantite);
+        produit.setUnitesCommandees(produit.getUnitesEnStock()-quantite);
+        return ligne;
     }
 
     /**
