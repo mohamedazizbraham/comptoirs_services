@@ -109,6 +109,9 @@ public class CommandeService {
     public Ligne ajouterLigne(int commandeNum, int produitRef, @Positive int quantite) {
         Produit produit = produitDao.findById(produitRef).orElseThrow();
         if (produit.isIndisponible()) throw new IllegalStateException("Le produit n'est pas disponible");
+        if (produit.getUnitesEnStock() < quantite + produit.getUnitesCommandees()) throw new IllegalStateException("Il n'y a pas assez de produit en stock");
+
+
 
     }
 
